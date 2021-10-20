@@ -14,7 +14,7 @@ stages:
 
 - stage: 'Development'
   jobs:
-  - deployment: 'DeployToDevelopment'
+  - deployment:
     strategy:
         runOnce:
           deploy:
