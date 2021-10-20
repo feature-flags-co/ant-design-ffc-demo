@@ -9,47 +9,37 @@ pool:
   vmImage: ubuntu-latest
 
 
+steps:
+- checkout: self
 
-stages:
+- task: DockerCompose@0
+  inputs:
+    containerregistrytype: 'Azure Container Registry'
+    azureSubscription: 'azure-china-devops'
+    azureContainerRegistry: '{"loginServer":"ffc0acr0ce20dev.azurecr.cn", "id" : "/subscriptions/2679f75f-10cb-466f-b2b4-ea24653a0e5c/resourceGroups/feature-flags-co-dev/providers/Microsoft.ContainerRegistry/registries/ffc0acr0ce20dev"}'
+    dockerComposeFile: '$(System.DefaultWorkingDirectory)/docker-compose.yml'
+    action: 'Build services'
+    includeLatestTag: true
+    additionalImageTags: $(Build.BuildId)
+    projectName: 'ffc-antd-demo'
 
-- stage: 'Development'
-  jobs:
-  - deployment:
-    strategy:
-        runOnce:
-          deploy:
-            steps:
-            - checkout: self
+- task: DockerCompose@0
+  inputs:
+    containerregistrytype: 'Azure Container Registry'
+    azureSubscription: 'azure-china-devops'
+    azureContainerRegistry: '{"loginServer":"ffc0acr0ce20dev.azurecr.cn", "id" : "/subscriptions/2679f75f-10cb-466f-b2b4-ea24653a0e5c/resourceGroups/feature-flags-co-dev/providers/Microsoft.ContainerRegistry/registries/ffc0acr0ce20dev"}'
+    dockerComposeFile: '$(System.DefaultWorkingDirectory)/docker-compose.yml'
+    action: 'Push services'
+    includeLatestTag: true
+    additionalImageTags: $(Build.BuildId)
+    projectName: 'ffc-antd-demo'
 
-            - task: DockerCompose@0
-              inputs:
-                containerregistrytype: 'Azure Container Registry'
-                azureSubscription: 'azure-china-devops'
-                azureContainerRegistry: '{"loginServer":"ffc0acr0ce20dev.azurecr.cn", "id" : "/subscriptions/2679f75f-10cb-466f-b2b4-ea24653a0e5c/resourceGroups/feature-flags-co-dev/providers/Microsoft.ContainerRegistry/registries/ffc0acr0ce20dev"}'
-                dockerComposeFile: '$(System.DefaultWorkingDirectory)/docker-compose.yml'
-                action: 'Build services'
-                includeLatestTag: true
-                additionalImageTags: $(Build.BuildId)
-                projectName: 'ffc-antd-demo'
-
-            - task: DockerCompose@0
-              inputs:
-                containerregistrytype: 'Azure Container Registry'
-                azureSubscription: 'azure-china-devops'
-                azureContainerRegistry: '{"loginServer":"ffc0acr0ce20dev.azurecr.cn", "id" : "/subscriptions/2679f75f-10cb-466f-b2b4-ea24653a0e5c/resourceGroups/feature-flags-co-dev/providers/Microsoft.ContainerRegistry/registries/ffc0acr0ce20dev"}'
-                dockerComposeFile: '$(System.DefaultWorkingDirectory)/docker-compose.yml'
-                action: 'Push services'
-                includeLatestTag: true
-                additionalImageTags: $(Build.BuildId)
-                projectName: 'ffc-antd-demo'
-
-            - task: AzureRmWebAppDeployment@4
-              inputs:
-                ConnectionType: 'AzureRM'
-                azureSubscription: 'azure-china-devops'
-                appType: 'webAppContainer'
-                WebAppName: 'ffc-webapp-antddemo-ce2-dev'
-                DockerNamespace: 'ffc0acr0ce20dev.azurecr.cn'
-                DockerRepository: 'ffc-antd-demo'
-                DockerImageTag: '$(Build.BuildId)'
-
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'azure-china-devops'
+    appType: 'webAppContainer'
+    WebAppName: 'ffc-webapp-antddemo-ce2-dev'
+    DockerNamespace: 'ffc0acr0ce20dev.azurecr.cn'
+    DockerRepository: 'ffc-antd-demo'
+    DockerImageTag: '$(Build.BuildId)'
