@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  ffc-experiments:
+  ffc-antd-demo:
     build:
       dockerfile: Dockerfile
     image: ffc-antd-demo
