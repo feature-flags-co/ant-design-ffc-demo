@@ -1,0 +1,8 @@
+version: "3.9"
+services:
+  ffc-experiments:
+    build:
+      dockerfile: Dockerfile
+    image: ffc-antd-demo
+    ports: 
+      - 80:80
