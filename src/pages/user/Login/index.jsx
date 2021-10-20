@@ -66,7 +66,7 @@ const Login = () => {
     //     name: ffcUserInfo.userName,
     //   }
     // })
-    // console.log('获客多init done');
+    console.log('获客多init done');
 
     try {
       // 登录

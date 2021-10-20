@@ -55,3 +55,11 @@ npm test
 ## More
 
 You can view full document on our [official website](https://pro.ant.design). And welcome any feedback in our [github](https://github.com/ant-design/ant-design-pro).
+
+
+
+
+## Docker
+
+docker build -t antd-ffc-demo:0.0.11 .
+docker run --name some-nginx -d -p 8080:80 some-content-nginx
