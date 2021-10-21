@@ -6,4 +6,4 @@ services:
       dockerfile: Dockerfile
     image: ffc-antd-demo
     ports: 
-      - 5000:80
+      - 80:80

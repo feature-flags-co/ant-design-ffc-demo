@@ -42,31 +42,27 @@ const Login = () => {
   };
 
   const handleSubmit = async (values) => {
-
     let userInfo = {
       userName: '' + values.mobile,
       key: '' + values.mobile,
       customizeProperties: [
         {
-          name: "手机号",
-          value: '' + values.mobile
-        }
-      ]
+          name: '手机号',
+          value: '' + values.mobile,
+        },
+      ],
     };
 
-    let envkey = localStorage.getItem("envkey");
-    FFCJsClient.initialize(
-      envkey,
-      userInfo
-    );
-    localStorage.setItem("ffc-user-info", JSON.stringify(userInfo));
+    let envkey = localStorage.getItem('envkey');
+    FFCJsClient.initialize(envkey, userInfo);
+    localStorage.setItem('ffc-user-info', JSON.stringify(userInfo));
     // console.log('获客多init started');
     // Hokdo.init('e7e79f2de9399f5128028a3546272855', {
     //   userInfo: {
     //     name: ffcUserInfo.userName,
     //   }
     // })
-    console.log('获客多init done');
+    // console.log('获客多init done');
 
     try {
       // 登录
