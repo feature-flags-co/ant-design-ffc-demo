@@ -6,6 +6,8 @@ import moment from 'moment';
 import EditableLinkGroup from './components/EditableLinkGroup';
 import styles from './style.less';
 import { queryProjectNotice, queryActivities, fakeChartData } from './service';
+import { FFCJsClient } from 'ffc-js-client-sdk/esm';
+
 const links = [
   {
     title: '操作一',
@@ -138,48 +140,96 @@ const Workplace = () => {
     >
       <Row gutter={24}>
         <Col xl={16} lg={24} md={24} sm={24} xs={24}>
-          <Card
-            className={styles.projectList}
-            style={{
-              marginBottom: 24,
-            }}
-            title="进行中的项目"
-            bordered={false}
-            extra={<Link to="/">全部项目</Link>}
-            loading={projectLoading}
-            bodyStyle={{
-              padding: 0,
-            }}
-          >
-            {projectNotice.map((item) => (
-              <Card.Grid className={styles.projectGrid} key={item.id}>
-                <Card
-                  bodyStyle={{
-                    padding: 0,
-                  }}
-                  bordered={false}
-                >
-                  <Card.Meta
-                    title={
-                      <div className={styles.cardTitle}>
-                        <Avatar size="small" src={item.logo} />
-                        <Link to={item.href}>{item.title}</Link>
+          {FFCJsClient.variation('进行中项目---超链接位置') ==
+          '超链接在卡片最底部左侧的文字上（旧版）' ? (
+            <Card
+              className={styles.projectList}
+              style={{
+                marginBottom: 24,
+              }}
+              title="进行中的项目"
+              bordered={false}
+              extra={<Link to="/">全部项目</Link>}
+              loading={projectLoading}
+              bodyStyle={{
+                padding: 0,
+              }}
+            >
+              {projectNotice.map((item) => (
+                <Card.Grid className={styles.projectGrid} key={item.id}>
+                  <Card
+                    bodyStyle={{
+                      padding: 0,
+                    }}
+                    bordered={false}
+                  >
+                    <Card.Meta
+                      title={
+                        <div className={styles.cardTitle}>
+                          <Avatar size="small" src={item.logo} />
+                          <Link to={item.href}>{item.title}</Link>
+                        </div>
+                      }
+                      description={item.description}
+                    />
+                    <div className={styles.projectItemContent}>
+                      <Link to={item.memberLink}>{item.member || ''}</Link>
+                      {item.updatedAt && (
+                        <span className={styles.datetime} title={item.updatedAt}>
+                          {moment(item.updatedAt).fromNow()}
+                        </span>
+                      )}
+                    </div>
+                  </Card>
+                </Card.Grid>
+              ))}
+            </Card>
+          ) : (
+            <Card
+              className={styles.projectList}
+              style={{
+                marginBottom: 24,
+              }}
+              title="进行中的项目"
+              bordered={false}
+              extra={<Link to="/">全部项目</Link>}
+              loading={projectLoading}
+              bodyStyle={{
+                padding: 0,
+              }}
+            >
+              {projectNotice.map((item) => (
+                <Card.Grid className={styles.projectGrid} key={item.id}>
+                  <Link to="/form/step-form">
+                    <Card
+                      bodyStyle={{
+                        padding: 0,
+                      }}
+                      bordered={false}
+                    >
+                      <Card.Meta
+                        title={
+                          <div className={styles.cardTitle}>
+                            <Avatar size="small" src={item.logo} />
+                            <Link to={item.href}>{item.title}</Link>
+                          </div>
+                        }
+                        description={item.description}
+                      />
+                      <div className={styles.projectItemContent}>
+                        <Link to={item.memberLink}>{item.member || ''}</Link>
+                        {item.updatedAt && (
+                          <span className={styles.datetime} title={item.updatedAt}>
+                            {moment(item.updatedAt).fromNow()}
+                          </span>
+                        )}
                       </div>
-                    }
-                    description={item.description}
-                  />
-                  <div className={styles.projectItemContent}>
-                    <Link to={item.memberLink}>{item.member || ''}</Link>
-                    {item.updatedAt && (
-                      <span className={styles.datetime} title={item.updatedAt}>
-                        {moment(item.updatedAt).fromNow()}
-                      </span>
-                    )}
-                  </div>
-                </Card>
-              </Card.Grid>
-            ))}
-          </Card>
+                    </Card>
+                  </Link>
+                </Card.Grid>
+              ))}
+            </Card>
+          )}
           <Card
             className={styles.projectList}
             style={{
@@ -193,7 +243,7 @@ const Workplace = () => {
               padding: 0,
             }}
           >
-             <Result
+            {/* <Result
               status="500"
               title="500"
               style={{
@@ -205,7 +255,7 @@ const Workplace = () => {
                   <Button type="primary">Back Home</Button>
                 </Link>
               }
-            />
+            /> */}
           </Card>
           <Card
             bodyStyle={{
@@ -236,7 +286,7 @@ const Workplace = () => {
               padding: 0,
             }}
           >
-            <EditableLinkGroup onAdd={() => { }} links={links} linkElement={Link} />
+            <EditableLinkGroup onAdd={() => {}} links={links} linkElement={Link} />
           </Card>
           <Card
             style={{
@@ -265,7 +315,7 @@ const Workplace = () => {
                 }}
               />
             </div>
-          </Card>     
+          </Card>
           <Card
             bodyStyle={{
               paddingTop: 12,

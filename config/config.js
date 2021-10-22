@@ -69,6 +69,12 @@ export default defineConfig({
       icon: 'dashboard',
       routes: [
         {
+          name: 'workplace',
+          icon: 'smile',
+          path: '/dashboard/workplace',
+          component: './dashboard/workplace',
+        },
+        {
           path: '/dashboard',
           redirect: '/dashboard/analysis',
         },
@@ -83,12 +89,6 @@ export default defineConfig({
           icon: 'smile',
           path: '/dashboard/monitor',
           component: './dashboard/monitor',
-        },
-        {
-          name: 'workplace',
-          icon: 'smile',
-          path: '/dashboard/workplace',
-          component: './dashboard/workplace',
         },
       ],
     },
