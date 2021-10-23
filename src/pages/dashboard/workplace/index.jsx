@@ -120,6 +120,102 @@ const Workplace = () => {
       </List.Item>
     );
   };
+  const sleep = (ms) => {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  };
+  const dosimulation = async () => {
+    alert(Date.now());
+    let startUserName = 16712522224;
+    for (let i = 0; i < 1000; i++) {
+      startUserName = startUserName + 1;
+      FFCJsClient.initialize(
+        'OTNlLTYyM2UtNCUyMDIxMTAxOTA4NDYxMF9fMl9fM19fMjM0X19kZWZhdWx0XzRhMjE1',
+        {
+          userName: '' + startUserName,
+          key: '' + startUserName,
+          customizeProperties: [
+            {
+              name: '手机号',
+              value: '' + startUserName,
+            },
+          ],
+        },
+      );
+      console.log('FFCJsClient.initialize');
+      await sleep(1000);
+      console.log('FFCJsClient.variation');
+      let variationResult = FFCJsClient.variation('进行中项目---超链接位置');
+      await sleep(1000);
+      console.log('FFCJsClient.track');
+      FFCJsClient.track([
+        {
+          secret: 'OTNlLTYyM2UtNCUyMDIxMTAxOTA4NDYxMF9fMl9fM19fMjM0X19kZWZhdWx0XzRhMjE1',
+          route: 'http://localhost:8000/form/step-form',
+          appType: 'Javascript',
+          eventName: 'pageview',
+          user: {
+            fFUserName: '' + startUserName,
+            fFUserEmail: '',
+            fFUserCountry: '',
+            fFUserKeyId: '' + startUserName,
+            fFUserCustomizedProperties: [
+              {
+                name: '手机号',
+                value: '' + startUserName,
+              },
+            ],
+          },
+        },
+      ]);
+      FFCJsClient.track([
+        {
+          secret: 'OTNlLTYyM2UtNCUyMDIxMTAxOTA4NDYxMF9fMl9fM19fMjM0X19kZWZhdWx0XzRhMjE1',
+          route: 'http://localhost:8000/form/step-form',
+          appType: 'Javascript',
+          type: 'Click',
+          eventName: 'click',
+          user: {
+            fFUserName: '' + startUserName,
+            fFUserEmail: '',
+            fFUserCountry: '',
+            fFUserKeyId: '' + startUserName,
+            fFUserCustomizedProperties: [
+              {
+                name: '手机号',
+                value: '' + startUserName,
+              },
+            ],
+          },
+        },
+      ]);
+
+      // if (variationResult === '超链接包裹卡片版（新版）') {
+      //   FFCJsClient.track([{
+      //     "secret": "OTNlLTYyM2UtNCUyMDIxMTAxOTA4NDYxMF9fMl9fM19fMjM0X19kZWZhdWx0XzRhMjE1",
+      //     "route": "http://localhost:8000/form/step-form",
+      //     "numericValue": 1,
+      //     "timeStamp": Date.now(),
+      //     "appType": "Javascript",
+      //     "user": {
+      //       "userName": "16672512224",
+      //       "email": "",
+      //       "country": "",
+      //       "key": "16672512224",
+      //       "customizeProperties": [
+      //         {
+      //           "name": "手机号",
+      //           "value": "16672512224"
+      //         }
+      //       ]
+      //     },
+      //     "eventName": "pageview"
+      //   }])
+      // }
+      // else if(variationResult === '超链接在卡片最底部左侧的文字上（旧版）'){
+
+      // }
+    }
+  };
 
   return (
     <PageContainer
@@ -138,6 +234,9 @@ const Workplace = () => {
       }
       extraContent={<ExtraContent />}
     >
+      <Row>
+        <Button onClick={dosimulation}>asdf</Button>
+      </Row>
       <Row gutter={24}>
         <Col xl={16} lg={24} md={24} sm={24} xs={24}>
           {FFCJsClient.variation('进行中项目---超链接位置') ==
