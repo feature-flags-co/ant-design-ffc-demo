@@ -8,7 +8,13 @@ import {
 } from '@ant-design/icons';
 import { Alert, message, Tabs } from 'antd';
 import React, { useState } from 'react';
-import { ProFormCaptcha, ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form';
+import {
+  ProFormCaptcha,
+  ProFormCheckbox,
+  ProFormText,
+  LoginForm,
+  ProFormSelect,
+} from '@ant-design/pro-form';
 import { useIntl, history, FormattedMessage, SelectLang, useModel } from 'umi';
 import Footer from '@/components/Footer';
 import { login } from '@/services/ant-design-pro/api';
@@ -29,7 +35,7 @@ const LoginMessage = ({ content }) => (
 
 const Login = () => {
   const [userLoginState, setUserLoginState] = useState({});
-  const [type, setType] = useState('account');
+  const [type, setType] = useState('mobile');
   const { initialState, setInitialState } = useModel('@@initialState');
   const intl = useIntl();
 
@@ -43,12 +49,28 @@ const Login = () => {
 
   const handleSubmit = async (values) => {
     let userInfo = {
-      userName: '' + values.mobile,
-      key: '' + values.mobile,
+      userName: values.user.label.split('|')[0].trim(),
+      key: values.user.label.split('|')[1].trim(),
       customizeProperties: [
         {
           name: '手机号',
-          value: '' + values.mobile,
+          value: values.user.label.split('|')[1].trim(),
+        },
+        {
+          name: '城市',
+          value: values.user.label.split('|')[2].trim(),
+        },
+        {
+          name: '区县',
+          value: values.user.label.split('|')[3].trim(),
+        },
+        {
+          name: '性别',
+          value: values.user.label.split('|')[4].trim(),
+        },
+        {
+          name: '年龄',
+          value: values.user.label.split('|')[5].trim(),
         },
       ],
     };
@@ -128,13 +150,13 @@ const Login = () => {
           }}
         >
           <Tabs activeKey={type} onChange={setType}>
-            <Tabs.TabPane
+            {/* <Tabs.TabPane
               key="account"
               tab={intl.formatMessage({
                 id: 'pages.login.accountLogin.tab',
                 defaultMessage: '账户密码登录',
               })}
-            />
+            /> */}
             <Tabs.TabPane
               key="mobile"
               tab={intl.formatMessage({
@@ -204,86 +226,85 @@ const Login = () => {
           {status === 'error' && loginType === 'mobile' && <LoginMessage content="验证码错误" />}
           {type === 'mobile' && (
             <>
-              <ProFormText
-                fieldProps={{
-                  size: 'large',
-                  prefix: <MobileOutlined className={styles.prefixIcon} />,
-                }}
-                name="mobile"
-                placeholder={intl.formatMessage({
-                  id: 'pages.login.phoneNumber.placeholder',
-                  defaultMessage: '手机号',
-                })}
+              <ProFormSelect
                 rules={[
                   {
                     required: true,
-                    message: (
-                      <FormattedMessage
-                        id="pages.login.phoneNumber.required"
-                        defaultMessage="请输入手机号！"
-                      />
-                    ),
-                  },
-                  {
-                    pattern: /^1\d{10}$/,
-                    message: (
-                      <FormattedMessage
-                        id="pages.login.phoneNumber.invalid"
-                        defaultMessage="手机号格式错误！"
-                      />
-                    ),
+                    message: '请选择一个用户',
                   },
                 ]}
-              />
-              <ProFormCaptcha
+                // width="sm"
                 fieldProps={{
-                  size: 'large',
-                  prefix: <LockOutlined className={styles.prefixIcon} />,
+                  labelInValue: true,
                 }}
-                captchaProps={{
-                  size: 'large',
+                name="user"
+                className={styles.item}
+                request={async () => {
+                  let returnValues = [
+                    {
+                      label: '张开云 | 13255511252 | 北京 | 顺义 | 男 | 31岁',
+                      value: '张开云',
+                    },
+                    {
+                      label: '王卿云 | 13255532563 | 北京 | 平谷 | 女 | 56岁',
+                      value: '王卿云',
+                    },
+                    {
+                      label: '梁开元 | 13252212552 | 北京 | 密云 | 男 | 25岁',
+                      value: '梁开元',
+                    },
+                    {
+                      label: '董卿 | 13755512352 | 北京 | 怀柔 | 女 | 43岁',
+                      value: '董卿',
+                    },
+                    {
+                      label: '朱芳雨 | 13995512367 | 北京 | 石景山 | 男 | 23岁',
+                      value: '朱芳雨',
+                    },
+                    {
+                      label: '陈浩南 | 13255889753 | 北京 | 昌平 | 男 | 32岁',
+                      value: '陈浩南',
+                    },
+                    {
+                      label: '吴亦凡 | 13255513215 | 北京 | 丰台 | 女 | 27岁',
+                      value: '吴亦凡',
+                    },
+                    {
+                      label: '郭艾伦 | 13253516480 | 北京 | 朝阳 | 男 | 27岁',
+                      value: '郭艾伦',
+                    },
+                    {
+                      label: '山鸡 | 13267512358 | 北京 | 宣武 | 男 | 27岁',
+                      value: '山鸡',
+                    },
+                    {
+                      label: '大空翼 | 13276512756 | 北京 | 崇文 | 男 | 27岁',
+                      value: '大空翼',
+                    },
+                    {
+                      label: '吴孟达 | 132875512612 | 北京 | 东城 | 男 | 27岁',
+                      value: '吴孟达',
+                    },
+                    {
+                      label: '周星驰 | 18855512452 | 北京 | 西城 | 男 | 27岁',
+                      value: '周星驰',
+                    },
+                    {
+                      label: '史泰龙 | 18055518890 | 北京 | 海淀 | 男 | 27岁',
+                      value: '史泰龙',
+                    },
+                    {
+                      label: '小泽 | 13225511234 | 北京 | 海淀 | 女 | 22岁',
+                      value: '小泽',
+                    },
+                    {
+                      label: '玛利亚 | 13233512455 | 北京 | 朝阳 | 女 | 23岁',
+                      value: '玛利亚',
+                    },
+                  ];
+                  return returnValues;
                 }}
-                placeholder={intl.formatMessage({
-                  id: 'pages.login.captcha.placeholder',
-                  defaultMessage: '请输入验证码',
-                })}
-                captchaTextRender={(timing, count) => {
-                  if (timing) {
-                    return `${count} ${intl.formatMessage({
-                      id: 'pages.getCaptchaSecondText',
-                      defaultMessage: '获取验证码',
-                    })}`;
-                  }
-
-                  return intl.formatMessage({
-                    id: 'pages.login.phoneLogin.getVerificationCode',
-                    defaultMessage: '获取验证码',
-                  });
-                }}
-                name="captcha"
-                rules={[
-                  {
-                    required: true,
-                    message: (
-                      <FormattedMessage
-                        id="pages.login.captcha.required"
-                        defaultMessage="请输入验证码！"
-                      />
-                    ),
-                  },
-                ]}
-                onGetCaptcha={async (phone) => {
-                  const result = await getFakeCaptcha({
-                    phone,
-                  });
-
-                  if (result === false) {
-                    return;
-                  }
-
-                  message.success('获取验证码成功！验证码为：1234');
-                }}
-              />
+              ></ProFormSelect>
             </>
           )}
           <div
@@ -294,13 +315,13 @@ const Login = () => {
             <ProFormCheckbox noStyle name="autoLogin">
               <FormattedMessage id="pages.login.rememberMe" defaultMessage="自动登录" />
             </ProFormCheckbox>
-            <a
+            {/* <a
               style={{
                 float: 'right',
               }}
             >
               <FormattedMessage id="pages.login.forgotPassword" defaultMessage="忘记密码" />
-            </a>
+            </a> */}
           </div>
         </LoginForm>
       </div>
