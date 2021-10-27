@@ -6,7 +6,6 @@ import moment from 'moment';
 import EditableLinkGroup from './components/EditableLinkGroup';
 import styles from './style.less';
 import { queryProjectNotice, queryActivities, fakeChartData } from './service';
-import { FFCJsClient } from 'ffc-js-client-sdk/esm';
 
 const links = [
   {
@@ -128,7 +127,7 @@ const Workplace = () => {
     let startUserName = 16712522224;
     for (let i = 0; i < 1000; i++) {
       startUserName = startUserName + 1;
-      FFCJsClient.initialize(
+      window.FFCJsClient.initialize(
         'OTNlLTYyM2UtNCUyMDIxMTAxOTA4NDYxMF9fMl9fM19fMjM0X19kZWZhdWx0XzRhMjE1',
         {
           userName: '' + startUserName,
@@ -147,7 +146,7 @@ const Workplace = () => {
       let variationResult = FFCJsClient.variation('进行中项目---超链接位置');
       await sleep(1000);
       console.log('FFCJsClient.track');
-      FFCJsClient.track([
+      window.FFCJsClient.track([
         {
           secret: 'OTNlLTYyM2UtNCUyMDIxMTAxOTA4NDYxMF9fMl9fM19fMjM0X19kZWZhdWx0XzRhMjE1',
           route: 'http://localhost:8000/form/step-form',
@@ -167,7 +166,7 @@ const Workplace = () => {
           },
         },
       ]);
-      FFCJsClient.track([
+      window.FFCJsClient.track([
         {
           secret: 'OTNlLTYyM2UtNCUyMDIxMTAxOTA4NDYxMF9fMl9fM19fMjM0X19kZWZhdWx0XzRhMjE1',
           route: 'http://localhost:8000/form/step-form',

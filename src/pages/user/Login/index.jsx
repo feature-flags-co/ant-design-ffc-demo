@@ -20,7 +20,6 @@ import Footer from '@/components/Footer';
 import { login } from '@/services/ant-design-pro/api';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 import styles from './index.less';
-import { FFCJsClient } from 'ffc-js-client-sdk/esm';
 
 const LoginMessage = ({ content }) => (
   <Alert
@@ -76,7 +75,7 @@ const Login = () => {
     };
 
     let envkey = localStorage.getItem('envkey');
-    FFCJsClient.initialize(envkey, userInfo);
+    window.FFCJsClient.initialize(envkey, userInfo);
     localStorage.setItem('ffc-user-info', JSON.stringify(userInfo));
     // console.log('获客多init started');
     // Hokdo.init('e7e79f2de9399f5128028a3546272855', {

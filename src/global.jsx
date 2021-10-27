@@ -3,7 +3,6 @@ import { useIntl } from 'umi';
 import defaultSettings from '../config/defaultSettings';
 const { pwa } = defaultSettings;
 const isHttps = document.location.protocol === 'https:';
-import { FFCJsClient } from 'ffc-js-client-sdk/esm';
 import { history, useModel } from 'umi';
 import { outLogin } from '@/services/ant-design-pro/api';
 import { stringify } from 'querystring';
@@ -134,7 +133,7 @@ if (envkey) {
   let ffcUserInfoStr = localStorage.getItem('ffc-user-info');
   if (ffcUserInfoStr) {
     let ffcUserInfo = JSON.parse(ffcUserInfoStr);
-    FFCJsClient.initialize(envkey, ffcUserInfo);
+    window.FFCJsClient.initialize(envkey, ffcUserInfo);
 
     // console.log('获客多init started');
     // Hokdo.init('e7e79f2de9399f5128028a3546272855', {
